@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 from dash import Dash, dcc, html, dash_table
 
 # อ่านข้อมูลจากไฟล์ Excel
-file_path = '22-134Socket.xlsx'  # ต้องไม่มี path ที่ชี้ไปยังเครื่องของคุณ
+file_path = '22-134Socket.xlsx'  # แค่ชื่อไฟล์พอ เพราะไฟล์อยู่ในโฟลเดอร์เดียวกัน
 df = pd.read_excel(file_path)
 
 # สรุปข้อมูลโปรเจกต์
