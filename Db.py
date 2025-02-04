@@ -1,7 +1,6 @@
 import pandas as pd
 import plotly.express as px
 from dash import Dash, dcc, html, dash_table
-import dash_html_components as html
 
 # อ่านข้อมูลจากไฟล์ Excel
 file_path = '22-134Socket.xlsx'
@@ -10,7 +9,7 @@ df = pd.read_excel(file_path)
 # สรุปข้อมูลโปรเจกต์
 project_name = "22-134 Change Maker of Socket"
 start_date = "16/12/24"
-end_date = "01/06/25"
+Target_Mass = "01/06/25"
 
 # คำนวณเปอร์เซ็นต์ความคืบหน้า
 status_counts = df['Status'].value_counts().reset_index()
@@ -44,24 +43,21 @@ app.layout = html.Div([
         'backgroundColor': '#fff', 'border': '1px solid #ddd', 'padding': '15px', 'border-radius': '8px', 'box-shadow': '0 4px 8px rgba(0,0,0,0.1)', 'margin': '20px 0'
     }),
 
-    # ไฮไลท์ "Summary" และช่อง Progress
+    # แสดงเปอร์เซ็นต์ความคืบหน้า
     html.Div([
-        html.H3('Summary:', style={'backgroundColor': '#f3f4a9', 'color': '#d9534f', 'font-weight': '500', 'padding': '5px'}),
-        
-        # แสดงเปอร์เซ็นต์ความคืบหน้า
-        html.P(f'Project % Complete: {percent_complete:.2f}%', style={'color': '#444', 'font-size': '1.2rem'}),
-        
-        # แสดงสถานะโปรเจกต์
-        html.Div([ 
-            html.P(f'Status: {project_name}', style={'font-size': '1.2rem', 'color': '#444'})
-        ], style={'margin': '10px 0'})
+        html.H3('Project % Complete', style={'color': '#555', 'font-weight': '500'}),
+        dcc.Graph(figure=fig_complete)
+    ], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top', 'margin-right': '2%'}),
 
-    ], style={'margin': '20px'}),
+    # แสดงสถานะโปรเจกต์
+    html.Div([
+        html.H3('Project Status', style={'color': '#555', 'font-weight': '500'}),
+        dcc.Graph(figure=fig_status)
+    ], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top'}),
 
     # ตารางรายงานสรุปงาน
     html.Div([
-        html.H3('Task Summary Report', style={'backgroundColor': '#f3f4a9', 'color': '#d9534f', 'font-weight': '500', 'padding': '5px'}),
-        
+        html.H3('Task Summary Report', style={'color': '#555', 'font-weight': '500'}),
         dash_table.DataTable(
             data=df.to_dict('records'),
             columns=[{'name': col, 'id': col} for col in df.columns],
@@ -74,15 +70,6 @@ app.layout = html.Div([
                 {
                     'if': {'row_index': 'odd'},
                     'backgroundColor': '#f9f9f9',
-                },
-                {
-                    'if': {
-                        'column_id': 'Mark',  # การเปลี่ยนสีวงกลมตามค่าในคอลัมน์ Mark
-                    },
-                    'backgroundColor': 'var(--circle-color)', 
-                    'border-radius': '50%',
-                    'width': '25px',
-                    'height': '25px',
                 }
             ],
         )
@@ -91,7 +78,6 @@ app.layout = html.Div([
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', port=8050, debug=True)
-
 
 
 
