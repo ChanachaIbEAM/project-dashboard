@@ -9,7 +9,7 @@ df = pd.read_excel(file_path)
 # สรุปข้อมูลโปรเจกต์
 project_name = "22-134 Change Maker of Socket"
 start_date = "16/12/24"
-Target_Mass = "01/06/25"
+end_date = "01/06/25"
 
 # คำนวณเปอร์เซ็นต์ความคืบหน้า
 status_counts = df['Status'].value_counts().reset_index()
@@ -78,6 +78,5 @@ app.layout = html.Div([
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', port=8050, debug=True)
-
 
 
