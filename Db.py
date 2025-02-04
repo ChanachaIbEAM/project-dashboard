@@ -46,6 +46,9 @@ app.layout = html.Div([
     # แสดงเปอร์เซ็นต์ความคืบหน้า
     html.Div([
         html.H3('Project % Complete', style={'color': '#555', 'font-weight': '500'}),
+        html.P(f'<b>{percent_complete:.2f}%</b>', dangerously_allow_html=True, style={
+            'color': '#d9534f', 'font-size': '1.5rem', 'font-weight': 'bold'
+        }),
         dcc.Graph(figure=fig_complete)
     ], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top', 'margin-right': '2%'}),
 
@@ -70,7 +73,29 @@ app.layout = html.Div([
                 {
                     'if': {'row_index': 'odd'},
                     'backgroundColor': '#f9f9f9',
-                }
+                },
+                # เพิ่มวงกลมสีในคอลัมน์ "Mark" ตามค่าสีที่เป็น Red, Yellow, Green
+                {
+                    'if': {'column_id': 'Mark', 'filter_query': '{Mark} = "Red"'},
+                    'backgroundColor': 'red',
+                    'border-radius': '50%',
+                    'width': '20px',
+                    'height': '20px',
+                },
+                {
+                    'if': {'column_id': 'Mark', 'filter_query': '{Mark} = "Yellow"'},
+                    'backgroundColor': 'yellow',
+                    'border-radius': '50%',
+                    'width': '20px',
+                    'height': '20px',
+                },
+                {
+                    'if': {'column_id': 'Mark', 'filter_query': '{Mark} = "Green"'},
+                    'backgroundColor': 'green',
+                    'border-radius': '50%',
+                    'width': '20px',
+                    'height': '20px',
+                },
             ],
         )
     ], style={'margin': '20px'})
