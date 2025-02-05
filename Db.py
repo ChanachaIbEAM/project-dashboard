@@ -166,8 +166,7 @@ html.Div([
 
     # Task Summary Table ด้านล่างสุดในกรอบ (Card)
 html.Div([
-    html.H3('📋 Task Summary Report', style={'color': '#555'}),
-    
+    html.H3('📋 Task Summary Report', style={'color': '#555'}),   
     dash_table.DataTable(
         data=df.to_dict('records'),
         columns=[{'name': col, 'id': col} for col in df.columns],
@@ -212,22 +211,6 @@ html.Div([
         ],
     ),
 ], style={'margin-top':'20px'})
-
-                {
-                    # เทสีเฉพาะในคอลัมน์ Status สำหรับ In Progress
-                    "if": {"column_id": "Status", "filter_query": '{Status} = "In Progress"'},
-                    "backgroundColor": "#FFF59D",
-                    "color": "#333",
-                },
-                {
-                    # เทสีเฉพาะในคอลัมน์ Status สำหรับ Not Started
-                    "if": {"column_id": "Status", "filter_query": '{Status} = "Not Started"'},
-                    "backgroundColor": "#FFABAB",
-                    "color": "#333",
-                },
-            ],
-        ),
-    ], style={'margin-top':'20px'})
 ])
 
 if __name__ == '__main__':
