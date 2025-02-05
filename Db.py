@@ -165,38 +165,54 @@ html.Div([
     ]),
 
     # Task Summary Table ด้านล่างสุดในกรอบ (Card)
-    html.Div([
-        html.H3('📋 Task Summary Report', style={'color': '#555'}),
-        
-        dash_table.DataTable(
-            data=df.to_dict('records'),
-            columns=[{'name': col, 
-                      'id': col} for col in df.columns],
-            style_table={
-                "overflowX": "auto",  
-                "border-radius": "8px",
-                },
-            style_cell={
-                "textAlign": "center",
-                "padding": "8px",
-                "font-size": "1rem"
+html.Div([
+    html.H3('📋 Task Summary Report', style={'color': '#555'}),
+    
+    dash_table.DataTable(
+        data=df.to_dict('records'),
+        columns=[{'name': col, 'id': col} for col in df.columns],
+        style_table={
+            "overflowX": "auto",  
+            "border-radius": "8px",
+        },
+        style_cell={
+            "textAlign": "center",  # ตั้งค่าดีฟอลต์ให้ชิดกลาง
+            "padding": "8px",
+            "font-size": "1rem"
+        },
+        style_header={
+            "backgroundColor": "#f4f4f4",
+            "fontWeight": "bold",
+            "color": "#333"
+        },
+        style_data_conditional=[
+            {
+                # กำหนดให้ข้อความในคอลัมน์ 'Topic' ชิดซ้าย
+                'if': {'column_id': 'Topic'},  
+                'textAlign': 'left',
             },
-            style_header={
-                "backgroundColor": "#f4f4f4",
-                "fontWeight": "bold",
-                "color": "#333"
+            {
+                # เทสีเฉพาะในคอลัมน์ Status สำหรับ Complete
+                "if": {"column_id": "Status", "filter_query": '{Status} = "Complete"'},
+                "backgroundColor": "#A5D6A7",
+                "color": "#333",
             },
-            style_data_conditional=[
-                {
-                    "if": {"row_index": "odd"},
-                    "backgroundColor": "#f9f9f9",
-                },
-                {
-                    # เทสีเฉพาะในคอลัมน์ Status สำหรับ Complete
-                    "if": {"column_id": "Status", "filter_query": '{Status} = "Complete"'},
-                    "backgroundColor": "#A5D6A7",
-                    "color": "#333",
-                },
+            {
+                # เทสีเฉพาะในคอลัมน์ Status สำหรับ In Progress
+                "if": {"column_id": "Status", "filter_query": '{Status} = "In Progress"'},
+                "backgroundColor": "#FFF59D",
+                "color": "#333",
+            },
+            {
+                # เทสีเฉพาะในคอลัมน์ Status สำหรับ Not Started
+                "if": {"column_id": "Status", "filter_query": '{Status} = "Not Started"'},
+                "backgroundColor": "#FFABAB",
+                "color": "#333",
+            },
+        ],
+    ),
+], style={'margin-top':'20px'})
+
                 {
                     # เทสีเฉพาะในคอลัมน์ Status สำหรับ In Progress
                     "if": {"column_id": "Status", "filter_query": '{Status} = "In Progress"'},
